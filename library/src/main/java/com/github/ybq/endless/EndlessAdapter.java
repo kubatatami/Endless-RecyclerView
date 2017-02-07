@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings({"unchecked", "WeakerAccess"})
 public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter {
     private final int TYPE_LOAD_MORE = 101;
     private boolean loading;
@@ -51,7 +51,6 @@ public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extend
 
     @Override
     public final int getItemCount() {
-
         if (loading) {
             return getCount() + 1;
         } else {
@@ -150,7 +149,7 @@ public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extend
     }
 
 
-    class LoadMoreHolder extends RecyclerView.ViewHolder {
+    static class LoadMoreHolder extends RecyclerView.ViewHolder {
         public LoadMoreHolder(View itemView) {
             super(itemView);
         }

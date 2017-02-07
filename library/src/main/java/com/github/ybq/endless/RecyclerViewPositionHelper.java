@@ -8,17 +8,17 @@ import android.view.View;
  * https://gist.github.com/mipreamble/b6d4b3d65b0b4775a22e
  */
 
-public class RecyclerViewPositionHelper {
+class RecyclerViewPositionHelper {
 
-    final RecyclerView recyclerView;
-    final RecyclerView.LayoutManager layoutManager;
+    private final RecyclerView recyclerView;
+    private final RecyclerView.LayoutManager layoutManager;
 
-    RecyclerViewPositionHelper(RecyclerView recyclerView) {
+    private RecyclerViewPositionHelper(RecyclerView recyclerView) {
         this.recyclerView = recyclerView;
         this.layoutManager = recyclerView.getLayoutManager();
     }
 
-    public static RecyclerViewPositionHelper createHelper(RecyclerView recyclerView) {
+    static RecyclerViewPositionHelper createHelper(RecyclerView recyclerView) {
         if (recyclerView == null) {
             throw new NullPointerException("Recycler View is null");
         }
@@ -30,7 +30,7 @@ public class RecyclerViewPositionHelper {
      *
      * @return The total number on items in a layout manager
      */
-    public int getItemCount() {
+    int getItemCount() {
         return layoutManager == null ? 0 : layoutManager.getItemCount();
     }
 
@@ -41,7 +41,7 @@ public class RecyclerViewPositionHelper {
      * @return The adapter position of the first visible item or {@link RecyclerView#NO_POSITION} if
      * there aren't any visible items.
      */
-    public int findFirstVisibleItemPosition() {
+    int findFirstVisibleItemPosition() {
         final View child = findOneVisibleChild(0, layoutManager.getChildCount(), false, true);
         return child == null ? RecyclerView.NO_POSITION : recyclerView.getChildAdapterPosition(child);
     }
@@ -82,8 +82,8 @@ public class RecyclerViewPositionHelper {
         return child == null ? RecyclerView.NO_POSITION : recyclerView.getChildAdapterPosition(child);
     }
 
-    View findOneVisibleChild(int fromIndex, int toIndex, boolean completelyVisible,
-                             boolean acceptPartiallyVisible) {
+    private View findOneVisibleChild(int fromIndex, int toIndex, boolean completelyVisible,
+                                     boolean acceptPartiallyVisible) {
         OrientationHelper helper;
         if (layoutManager.canScrollVertically()) {
             helper = OrientationHelper.createVerticalHelper(layoutManager);
