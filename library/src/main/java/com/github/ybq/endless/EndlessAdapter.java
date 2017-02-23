@@ -70,86 +70,93 @@ public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extend
         if (adapter instanceof EndlessAdapter) {
             return (EndlessAdapter) adapter;
         }
-        EndlessAdapter endlessAdapter = new EndlessAdapter(loadMoreView) {
-            @Override
-            public int getViewType(int position) {
-                return adapter.getItemViewType(position);
-            }
-
-            @Override
-            public int getCount() {
-                return adapter.getItemCount();
-            }
-
-            @Override
-            public RecyclerView.ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
-                return adapter.onCreateViewHolder(parent, viewType);
-            }
-
-            @Override
-            public void onBindHolder(RecyclerView.ViewHolder holder, int position) {
-                adapter.onBindViewHolder(holder, position);
-            }
-
-            @Override
-            public long getItemId(int position) {
-                return adapter.getItemId(position);
-            }
-
-
-            @Override
-            public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-                adapter.onDetachedFromRecyclerView(recyclerView);
-            }
-
-            @Override
-            public void registerAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
-                super.registerAdapterDataObserver(observer);
-                adapter.registerAdapterDataObserver(observer);
-            }
-
-            @Override
-            public void unregisterAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
-                super.unregisterAdapterDataObserver(observer);
-                adapter.unregisterAdapterDataObserver(observer);
-            }
-
-            @Override
-            public void setHasStableIds(boolean hasStableIds) {
-                super.setHasStableIds(hasStableIds);
-                adapter.setHasStableIds(hasStableIds);
-            }
-
-            @Override
-            public void onViewRecycled(RecyclerView.ViewHolder holder) {
-                super.onViewRecycled(holder);
-                adapter.onViewRecycled(holder);
-            }
-
-            @Override
-            public boolean onFailedToRecycleView(RecyclerView.ViewHolder holder) {
-                return adapter.onFailedToRecycleView(holder);
-            }
-
-            @Override
-            public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
-                adapter.onViewAttachedToWindow(holder);
-            }
-
-            @Override
-            public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
-                adapter.onViewDetachedFromWindow(holder);
-            }
-
-            @Override
-            public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-                adapter.onAttachedToRecyclerView(recyclerView);
-            }
-        };
-        endlessAdapter.setHasStableIds(adapter.hasStableIds());
-        return endlessAdapter;
+        return new WrapEndlessAdapter(adapter, loadMoreView);
     }
 
+    static class WrapEndlessAdapter extends EndlessAdapter{
+
+        private final RecyclerView.Adapter adapter;
+
+        public WrapEndlessAdapter(final RecyclerView.Adapter adapter, View loadMoreView) {
+            super(loadMoreView);
+            this.adapter = adapter;
+            super.setHasStableIds(adapter.hasStableIds());
+        }
+
+        @Override
+        public int getViewType(int position) {
+            return adapter.getItemViewType(position);
+        }
+
+        @Override
+        public int getCount() {
+            return adapter.getItemCount();
+        }
+
+        @Override
+        public RecyclerView.ViewHolder onCreateHolder(ViewGroup parent, int viewType) {
+            return adapter.onCreateViewHolder(parent, viewType);
+        }
+
+        @Override
+        public void onBindHolder(RecyclerView.ViewHolder holder, int position) {
+            adapter.onBindViewHolder(holder, position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return adapter.getItemId(position);
+        }
+
+        @Override
+        public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
+            adapter.onDetachedFromRecyclerView(recyclerView);
+        }
+
+        @Override
+        public void registerAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
+            super.registerAdapterDataObserver(observer);
+            adapter.registerAdapterDataObserver(observer);
+        }
+
+        @Override
+        public void unregisterAdapterDataObserver(RecyclerView.AdapterDataObserver observer) {
+            super.unregisterAdapterDataObserver(observer);
+            adapter.unregisterAdapterDataObserver(observer);
+        }
+
+        @Override
+        public void setHasStableIds(boolean hasStableIds) {
+            super.setHasStableIds(hasStableIds);
+            adapter.setHasStableIds(hasStableIds);
+        }
+
+        @Override
+        public void onViewRecycled(RecyclerView.ViewHolder holder) {
+            super.onViewRecycled(holder);
+            adapter.onViewRecycled(holder);
+        }
+
+        @Override
+        public boolean onFailedToRecycleView(RecyclerView.ViewHolder holder) {
+            return adapter.onFailedToRecycleView(holder);
+        }
+
+        @Override
+        public void onViewAttachedToWindow(RecyclerView.ViewHolder holder) {
+            adapter.onViewAttachedToWindow(holder);
+        }
+
+        @Override
+        public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+            adapter.onViewDetachedFromWindow(holder);
+        }
+
+        @Override
+        public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+            adapter.onAttachedToRecyclerView(recyclerView);
+        }
+    }
 
     static class LoadMoreHolder extends RecyclerView.ViewHolder {
         public LoadMoreHolder(View itemView) {
