@@ -70,7 +70,7 @@ public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extend
         if (adapter instanceof EndlessAdapter) {
             return (EndlessAdapter) adapter;
         }
-        return new EndlessAdapter(loadMoreView) {
+        EndlessAdapter endlessAdapter = new EndlessAdapter(loadMoreView) {
             @Override
             public int getViewType(int position) {
                 return adapter.getItemViewType(position);
@@ -146,6 +146,8 @@ public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extend
                 adapter.onAttachedToRecyclerView(recyclerView);
             }
         };
+        endlessAdapter.setHasStableIds(adapter.hasStableIds());
+        return endlessAdapter;
     }
 
 
