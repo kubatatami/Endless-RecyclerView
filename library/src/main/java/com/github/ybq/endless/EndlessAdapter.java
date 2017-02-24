@@ -85,7 +85,7 @@ public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extend
         return new WrapEndlessAdapter(adapter, loadMoreView);
     }
 
-    static class WrapEndlessAdapter extends EndlessAdapter{
+    static class WrapEndlessAdapter extends EndlessAdapter {
 
         private final RecyclerView.Adapter adapter;
 
@@ -113,11 +113,6 @@ public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extend
         @Override
         public void onBindHolder(RecyclerView.ViewHolder holder, int position) {
             adapter.onBindViewHolder(holder, position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return adapter.getItemId(position);
         }
 
         @Override
