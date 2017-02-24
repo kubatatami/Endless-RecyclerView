@@ -4,6 +4,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import static android.support.v7.widget.RecyclerView.NO_ID;
+
 
 @SuppressWarnings({"unchecked", "WeakerAccess"})
 public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter {
@@ -50,6 +52,14 @@ public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extend
     }
 
     @Override
+    public long getItemId(int position) {
+        if (loading && position == getItemCount() - 1) {
+            return NO_ID;
+        }
+        return getId(position);
+    }
+
+    @Override
     public final int getItemCount() {
         if (loading) {
             return getCount() + 1;
@@ -57,6 +67,8 @@ public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extend
             return getCount();
         }
     }
+
+    public abstract long getId(int position);
 
     public abstract int getViewType(int position);
 
@@ -105,6 +117,11 @@ public abstract class EndlessAdapter<LVH extends RecyclerView.ViewHolder> extend
 
         @Override
         public long getItemId(int position) {
+            return adapter.getItemId(position);
+        }
+
+        @Override
+        public long getId(int position) {
             return adapter.getItemId(position);
         }
 
